@@ -29,8 +29,71 @@ import javax.sound.sampled.Clip;
 
 public class Mario {
 
-    public static void main(String[] args) {
-
+    public Mario() {
+        setup();
     }
 
+    private void setup() {
+        endgame = false;
+    }
+
+    private static class Animate implements Runnable {
+        public void run() {
+            while (endgame == false) {
+                backgroundDraw();
+            }
+        }
+
+        private void backgroundDraw() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'backgroundDraw'");
+        }
+    }
+
+    private static class StartGame implements ActionListener {
+        public void actionPerformend(ActionEvent e) {
+            endgame = true;
+        }
+    }
+
+    public static class Quitgame implements ActionListener {
+        public void actionPerformend(ActionEvent e) {
+            endgame = true;
+        }
+    }
+
+    // private static class ImageObject{
+    // public ImageObject(){
+    // maxFrames = 1;
+    // currentFrame = 0;
+    // bounce = false;
+    // life = 1;
+    // maxLife = 1;
+    // dropLife = 0;
+    // }
+
+    // }
+    public static void main(String[] args) {
+        setup();
+        appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        appFrame.setSize(WINWIDTH + 1, WINHEIGHT + 85);
+
+        JPanel myPanel = new JPanel();
+
+        JButton quitButton = new JButton("Select");
+        quitButton.addActionListener(new QuitGame());
+        myPanel.add(quitButton);
+        JButton newGameButton = new JButton("Start");
+        newGameButton.addActionListener(new StartGame());
+        myPanel.add(newGameButton);
+        bindKey(myPanel, "UP");
+        bindKey(myPanel, "DOWN");
+        bindKey(myPanel, "LEFT");
+        bindKey(myPanel, "RIGHT");
+        bindKey(myPanel, "F");
+        appFrame.getContentPane().add(myPanel, "South");
+        appFrame.setVisible(true);
+    }
+
+    private static Boolean endgame;
 }
