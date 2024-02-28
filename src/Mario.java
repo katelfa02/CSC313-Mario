@@ -39,8 +39,8 @@ public class Mario {
         appFrame = new JFrame("Super Mario");
         XOFFSET = 0;
         YOFFSET = 40;
-        WINWIDTH = 338;
-        WINHEIGHT = 271;
+        WINWIDTH = 400;// 338;
+        WINHEIGHT = 400;// 271;
         pi = 3.14159265358979;
         twoPi = 2.0 * 3.14159265358979;
         endgame = false;
@@ -92,6 +92,12 @@ public class Mario {
         public void run() {
             while (endgame == false) {
                 backgroundDraw();
+
+                try {
+                    Thread.sleep(32);
+                } catch (InterruptedException e) {
+
+                }
             }
         }
 
@@ -292,6 +298,8 @@ public class Mario {
 
         JPanel myPanel = new JPanel();
 
+        // myPanel.imageUpdate(background, WINWIDTH, XOFFSET, YOFFSET, IFW, WINHEIGHT);
+
         JButton quitButton = new JButton("Select");
         quitButton.addActionListener(new QuitGame());
         myPanel.add(quitButton);
@@ -303,7 +311,7 @@ public class Mario {
         // bindKey(myPanel, "LEFT");
         // bindKey(myPanel, "RIGHT");
         // bindKey(myPanel, "F");
-        appFrame.getContentPane().add(myPanel, "South");
+        appFrame.getContentPane().add(myPanel);
         appFrame.setVisible(true);
     }
 
