@@ -19,6 +19,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 
 public class Mario {
+
     public Mario() {
         setup();
     }
@@ -34,8 +35,9 @@ public class Mario {
         endgame = false;
         p1width = 25; // 18 .5 ;
         p1height = 25; // 25;
-        p1originalX = (double) XOFFSET + (p1width / 2.0) + 75; //SPAWN X COORD (i added +75)
-        p1originalY = (double) YOFFSET + ((double) WINHEIGHT / 2.0) + 10; //SPAWN Y COORD (i added +10...more than that he disappears??)
+        p1originalX = (double) XOFFSET + (p1width / 2.0) + 75; // SPAWN X COORD (i added +75)
+        p1originalY = (double) YOFFSET + ((double) WINHEIGHT / 2.0) + 10; // SPAWN Y COORD (i added +10...more than that
+                                                                          // he disappears??)
         playerBullets = new Vector<ImageObject>();
         bulletWidth = 5;
         playerbulletgap = 1;
@@ -56,6 +58,7 @@ public class Mario {
             while (endgame == false) {
                 backgroundDraw();
                 playerDraw();
+
                 // enemyDraw();
 
                 try {
@@ -76,24 +79,24 @@ public class Mario {
 
     private static class WindowChecker implements Runnable {
         public WindowChecker() {
-
         }
+
         public void run() {
             while (endgame == false) {
-                double windowLeftBound = WINWIDTH / 5.0;  // 1/5th of the screen from the left
-                double windowRightBound = WINWIDTH * 4.0 / 5.0;  // 1/5th of the screen from the right
+                double windowLeftBound = WINWIDTH / 5.0; // 1/5th of the screen from the left
+                double windowRightBound = WINWIDTH * 4.0 / 5.0; // 1/5th of the screen from the right
 
                 // Check if player is within the window
                 if (p1.getX() >= windowLeftBound && p1.getX() <= windowRightBound) {
                     inWindow = true;
                 } else {
                     inWindow = false;
-                    System.out.println("OUTSIDE WINDOWWWWWW");
+                    // System.out.println("OUTSIDE WINDOWWWWWW");
                 }
 
                 // Sleep for a short interval to avoid constantly checking
                 try {
-                    Thread.sleep(10);  // Adjust as needed
+                    Thread.sleep(10); // Adjust as needed
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -102,12 +105,14 @@ public class Mario {
     }
 
     private static class PlayerMover implements Runnable {
-        private double jumpDistance = 10;
+        private double jumpDistance = 55;
+        private double walkSpeed = 10;
 
         public PlayerMover() {
             velocitystep = 0.01;
             rotatestep = 0.01;
-            isJumping = false; //(sometimes) avoids double jumping/floating glitch, wait until jump is completed
+            isJumping = false; // (sometimes) avoids double jumping/floating glitch, wait until jump is
+                               // completed
         }
 
         public void run() {
@@ -117,16 +122,27 @@ public class Mario {
                 } catch (InterruptedException e) {
                 }
 
-                if (upPressed == true) {     // jump action moves mario up and down
+                if (upPressed == true) { // jump action moves mario up and down
                     if (isJumping == true) {
                         break;
                     } else if (isJumping == false) {
-                        //jump
-                        try {player = ImageIO.read(new File("images/marioJumping.png"));} catch (IOException e) {e.printStackTrace();} //jump image
+                        // jump
+                        try {
+                            player = ImageIO.read(new File("images/marioJumping.png"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } // jump image
                         isJumping = true;
                         p1.y -= jumpDistance;
-                        try {Thread.sleep(200);} catch (InterruptedException e) {}
-                        try {player = ImageIO.read(new File("images/mario.png"));} catch (IOException e) {e.printStackTrace();} //jump image
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                        }
+                        try {
+                            player = ImageIO.read(new File("images/mario.png"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } // jump image
                         p1.y += jumpDistance;
                         isJumping = false;
                     }
@@ -136,49 +152,78 @@ public class Mario {
                     // draw mario crouched and change hitbox
                 }
                 if (leftPressed == true) {
-                    try {player = ImageIO.read(new File("images/marioLeft.png"));} catch (IOException e) {e.printStackTrace();} //jump image
+                    try {
+                        player = ImageIO.read(new File("images/marioLeft.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } // jump image
                     if (!inWindow && (p1.x < WINWIDTH / 2)) {
-                        //if (bg.exists to the left???) { //TODO LEFT OFF HERE
-                           //SCOOT BACKGROUND LEFT ::> print bg pixels to the right
+                        // if (bg.exists to the left???) { //TODO LEFT OFF HERE
+                        // SCOOT BACKGROUND LEFT ::> print bg pixels to the right
                     }
                     if (upPressed == true) {
                         p1.y -= jumpDistance;
                         p1.x -= jumpDistance;
-                        try {Thread.sleep(200);} catch (InterruptedException e) {}
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                        }
                         p1.y += jumpDistance;
                     } else {
-                        p1.x -= jumpDistance;
-                        try {Thread.sleep(200);} catch (InterruptedException e) {}
+                        p1.x -= walkSpeed;
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                        }
                     }
 
                     // change mario sprite and update background
                 }
                 if (rightPressed == true) {
-                    try {player = ImageIO.read(new File("images/mario.png"));} catch (IOException e) {e.printStackTrace();} //jump image
+                    try {
+                        player = ImageIO.read(new File("images/mario.png"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } // jump image
                     if (upPressed == true) {
                         p1.y -= jumpDistance;
                         p1.x += jumpDistance;
-                        try {Thread.sleep(200);} catch (InterruptedException e) {}
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                        }
                         p1.y += jumpDistance;
+                    } else if (p1.x > 300) {
+                        p1.x = p1.x - 0.5;
                     } else {
-                        p1.x += jumpDistance;
-                        try {Thread.sleep(200);} catch (InterruptedException e) {}
+                        p1.x += walkSpeed;
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                        }
                     }
                 }
-//                if (firePressed == true) {
-//                    try {
-//                        if (playerBullets.size() == 0) {
-//                            insertPlayerBullet();
-//                        } else if (System.currentTimeMillis() - playerBulletsTimes
-//                                .elementAt(playerBulletsTimes.size() - 1) > playerbulletlifetime / 4.0) {
-//                            insertPlayerBullet();
-//                        }
-//                    } catch (java.lang.ArrayIndexOutOfBoundsException aioobe) {
-//                    }
-//                }
+                // if (firePressed == true) {
+                // try {
+                // if (playerBullets.size() == 0) {
+                // insertPlayerBullet();
+                // } else if (System.currentTimeMillis() - playerBulletsTimes
+                // .elementAt(playerBulletsTimes.size() - 1) > playerbulletlifetime / 4.0) {
+                // insertPlayerBullet();
+                // }
+                // } catch (java.lang.ArrayIndexOutOfBoundsException aioobe) {
+                // }
+                // }
 
-                //p1.move(p1velocity * Math.cos(p1.getInternalAngle()), p1velocity * Math.sin(p1.getInternalAngle()));
-                p1.screenWrap(XOFFSET - 100, XOFFSET - 100 + WINWIDTH, 0 - 100, 0 + WINHEIGHT - 100); // needs to be higher on the screen likely correct size tho
+                // p1.move(p1velocity * Math.cos(p1.getInternalAngle()), p1velocity *
+                // Math.sin(p1.getInternalAngle()));
+
+                // p1.screenWrap(XOFFSET - 100, XOFFSET - 100 + WINWIDTH, 0 - 100, 0 + WINHEIGHT
+                // - 100); // needs to be
+                // higher on the
+                // screen likely
+                // correct size
+                // tho
             }
         }
 
@@ -201,7 +246,7 @@ public class Mario {
                 try {
                     for (int i = 0; i < playerBullets.size(); i++) {
                         playerBullets.elementAt(i).move(-velocity * Math.cos(
-                                        playerBullets.elementAt(i).getAngle() - pi / 2.0),
+                                playerBullets.elementAt(i).getAngle() - pi / 2.0),
                                 velocity * Math.sin(playerBullets.elementAt(i).getAngle() - pi / 2.0));
                         playerBullets.elementAt(i).screenWrap(XOFFSET, XOFFSET +
                                 WINWIDTH, YOFFSET, YOFFSET + WINHEIGHT);
@@ -328,10 +373,10 @@ public class Mario {
     // }
 
     private static void lockrotateObjAroundObjbottom(ImageObject objOuter,
-                                                     ImageObject objInner, double dist) {
+            ImageObject objInner, double dist) {
 
         objOuter.moveto(objInner.getX() + (dist + objInner.getWidth() / 2.0)
-                        * Math.cos(-objInner.getAngle() + pi / 2.0) + objOuter.getWidth() / 2.0,
+                * Math.cos(-objInner.getAngle() + pi / 2.0) + objOuter.getWidth() / 2.0,
                 objInner.getY() + (dist + objInner.getHeight() / 2.0) * Math.sin(-objInner.getAngle() + pi / 2.0)
                         + objOuter.getHeight() / 2.0);
 
@@ -339,11 +384,11 @@ public class Mario {
     }
 
     private static void lockrotateObjAroundObjtop(ImageObject objOuter,
-                                                  ImageObject objInner, double dist) {
+            ImageObject objInner, double dist) {
         objOuter.moveto(objInner.getX() + objOuter.getWidth() + (objInner.getWidth() / 2.0 +
                 (dist + objInner.getWidth() / 2.0) * Math.cos(objInner.getAngle() + pi / 2.0)) / 2.0, objInner.getY() -
-                objOuter.getHeight() + (dist + objInner.getHeight() / 2.0) *
-                Math.sin(objInner.getAngle() / 2.0));
+                        objOuter.getHeight() + (dist + objInner.getHeight() / 2.0) *
+                                Math.sin(objInner.getAngle() / 2.0));
         objOuter.setAngle(objInner.getAngle());
     }
 
@@ -365,6 +410,15 @@ public class Mario {
         Graphics g = appFrame.getGraphics();
         Graphics2D g2D = (Graphics2D) g;
         g2D.drawImage(background, XOFFSET, YOFFSET, null);
+
+        if (inWindow == false && rightPressed == true) {
+            XOFFSET = XOFFSET - 3;
+        }
+
+        if (inWindow == false && leftPressed == true) {
+            XOFFSET = XOFFSET + 2;
+        }
+
     }
 
     // private static void enemyBulletsDraw() {
@@ -394,7 +448,7 @@ public class Mario {
         try {
             for (int i = 0; i < playerBullets.size(); i++) {
                 g2D.drawImage(rotateImageObject(playerBullets.elementAt(i)).filter(playerBullet,
-                                null),
+                        null),
                         (int) (playerBullets.elementAt(i).getX() + 0.5), (int) (playerBullets.elementAt(i).getY()
                                 + 0.5),
                         null);
@@ -491,7 +545,7 @@ public class Mario {
             leftPressed = false;
             rightPressed = false;
             lastPressed = 90.0;
-//            firePressed = false;
+            // firePressed = false;
             p1 = new ImageObject(p1originalX, p1originalY, p1width, p1height, 0.0);
             p1velocity = 0.0;
             try {
@@ -631,7 +685,7 @@ public class Mario {
         }
 
         public ImageObject(double xinput, double yinput, double xwidthinput,
-                           double yheightinput, double angleinput) {
+                double yheightinput, double angleinput) {
             x = xinput;
             y = yinput;
             xwidth = xwidthinput;
@@ -823,7 +877,7 @@ public class Mario {
         bindKey(myPanel, "DOWN");
         bindKey(myPanel, "LEFT");
         bindKey(myPanel, "RIGHT");
-//        bindKey(myPanel, "F");
+        // bindKey(myPanel, "F");
         appFrame.getContentPane().add(myPanel, "South");
         appFrame.setVisible(true);
     }
@@ -839,7 +893,6 @@ public class Mario {
     private static Boolean isJumping;
     private static Boolean inWindow;
     private static Double lastPressed;
-
 
     private static ImageObject p1;
     private static double p1width;
@@ -869,4 +922,6 @@ public class Mario {
     private static double twoPi;
     private static JFrame appFrame;
     private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
+    private static int imagePosX = 0;
 }
